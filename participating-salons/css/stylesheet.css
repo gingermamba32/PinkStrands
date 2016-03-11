@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+img {
+    border:none;
+}
+
+a:active, a:link, a:visited {
+	color:#0033CC;
+    text-decoration:none;
+}
+
+a:hover {
+    color:#0033CC;
+    text-decoration:underline;
+}
+
+.clearer {
+    clear:both;
+}
+
+#home_body {
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:14px;
+    color:#534741;
+}
+
+h1 {
+	font-size:22px;
+	color:#a69483;
+}
+
+h2 {
+	font-size:18px;
+	color:#a69483;
+}
+
+#site_wrapper {
+    width:1212px;
+    margin:0 auto;
+	border:1px solid grey;
+}
+
+#header {
+    width:1212px;
+    height:219px;
+    background:url(http://wpc.aaf7.edgecastcdn.net/00AAF7/psftc/images/header.jpg) no-repeat center center;
+}
+
+#top_left_links {
+	color:#ffffff;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:14px;
+	padding-top:64px;
+	padding-left:123px;
+}
+
+.toplinks {
+	color:#ffffff;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:14px;
+	letter-spacing:-1px;
+}
+
+#logo {
+	margin-top:-174px;
+	margin-left:416px;
+}
+
+#phone {
+	margin-top:-148px;
+	margin-left:787px;
+}
+
+#top_right_links {
+	color:#ffffff;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:14px;
+	padding-top:24px;
+	padding-left:763px;
+}
+
+
+#footer {
+
+     height:139px;
+     width:1212px;
+     background:url(http://wpc.aaf7.edgecastcdn.net/00AAF7/psftc/images/footer.jpg) no-repeat center center;
+}
+
+#footer_links {
+	margin-top:-80px;
+}
+
+.footerlinks {
+	color:#796a5d;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:14px;
+	letter-spacing:-1px;
+}
+
