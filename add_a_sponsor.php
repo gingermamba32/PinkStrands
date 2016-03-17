@@ -1,4 +1,18 @@
-<html>
+<?php
+        $username2 = "pinkstrandsuser";
+        $password2 = "pah0oN9voigieG7j";
+        $hostname2 = "198.90.23.189:3306"; 
+        $dbname2   = "pinkstrands";
+
+       
+        $db_selected2 = mysql_connect($hostname2, $username2, $password2) 
+         or die("<h1>Unable to connect to MySQL" . mysql_error() . "</h1>");
+
+        mysql_select_db($dbname2, $db_selected2);
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Pink Strands</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -102,16 +116,15 @@
     <button class="btn" align="center" type="submit" name="submit" id="submit" style="display:block; margin:0 auto; background-color: #ff1493;">Submit</button>
 </form>
 
-<div style="height: 100px;">
-</div>
+<div style="height: 100px;"></div>
 <div class="container" style="text-align:center; padding-bottom: 50px;">
         <h3>Search Salons by state to update/delete</h3>       
 </div>
 
-<form action="" method="POST" style="width: 300px; margin: 0 auto; padding: 15px 15px; border-radius: 10px; background-color:#eee;">
+<form action="add_a_sponsor.php" method="POST" style="width: 300px; margin: 0 auto; padding: 15px 15px; border-radius: 10px; background-color:#eee;">
     <div class="form-group">
-        <label for="state">Select State:</label>
-        <select name="state">
+        <label for="state2">Select State:</label>
+        <select name="state2">
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
@@ -165,54 +178,52 @@
             <option value="WY">Wyoming</option>
         </select>
     </div>
-    <button class="btn" align="center" type="submit" name="submit" id="submit" style="display:block; margin:0 auto; background-color: #ff1493;">Submit</button>
+    <button class="btn" align="center" type="submit" name="search" id="search" style="display:block; margin:0 auto; background-color: #ff1493;">Submit</button>
 </form>
-                <?php
-                    $username1 = "pinkstrandsuser";
-                    $password1 = "pah0oN9voigieG7j";
-                    $hostname1 = "198.90.23.189:3306"; 
-                    $dbname1   = "pinkstrands";
+<div style="height: 75px;"></div>
+
+    <?php
+            echo "<div class='container'";
+            // echo "<p style='text-align:center; font-size:14px;font-weight:600;'>"
+            if(isset($_POST['search']))  // if form was submitted (if you came here with form data)
+            {
+                $state = $_POST['state2'];
+                $state = mysql_real_escape_string($state);
+                $query = "SELECT salon, address, city, state, zip, email, phone, uid FROM salons WHERE state = '$state'";
+                $result = mysql_query($query);
+                if($result){
+                                //echo " </br>Records queried successfully";
+                                while($row = mysql_fetch_array($result)){   //Creates a loop to loop through results
+                                    
+                                    echo "<form action='add_a_sponsor.php' method='post'><p style='text-align:center; font-size:18px;font-weight:600;'>" . $row['salon'] . "</br>" . $row['address'] . "</br>" . $row['city'] . ", " . $row['state'] . " " . $row['zip'] . "</br>" . "Phone:" . $row['phone'] . "</br>" . "Email: <a href='mailto:".$row['email']."''>" .$row['email']."</a>" . "</br>" . "<button type='submit' name='deleteItem' id='deleteItem' value='" .$row['uid'] . "'>DELETE</button></br></br></br></p></form>";  //$row['index'] the index here is a field name
+                                }  
+                            } 
+                            else{
+                                echo "ERROR: Could not execute $sql. " . mysql_error($db_selected2);
+                            }
+            }
+
+            echo "</div>";
+
+            if(isset($_POST['deleteItem']))
+            {
+                $id = $_POST['deleteItem'];
+                $id = mysql_real_escape_string($id);
+                $query = "DELETE FROM salons WHERE uid = '$id'";
+                $delete = mysql_query($query);
+                if($delete){
+                    echo "<p style='text-align:center; font-size: 22px; font-weigth:600;'>Records queried successfully</p>";
+                } else{
+                    echo "<h1 style='text-align: center; font-size: 35px;'>ERROR: " . mysql_error($db_selected2) . "</h1>";
+                }
+                
+            }
 
 
+            mysql_close($db_selected2);
 
-                    // //connection to the database
-                    $db_selected = mysql_connect($hostname1, $username1, $password1) 
-                     or die("Unable to connect to MySQL" . mysql_error());
-                    //echo "Connected to MySQLXXX<br>";
+    ?>
 
-                    // //select a database to work with
-                    mysql_select_db($dbname1, $db_selected);
-                    // // if (!$con){
-                    // //     die('could not connect: ');
-                    // // }
-                     //echo 'here';
-
-                    echo "<p style='font-size:14px;'>";
-
-                        $sql = "SELECT salon, address, city, state, zip, email, phone FROM salons WHERE state = 'AL'";
-                        $result = mysql_query($sql);
-
-                        if($result){
-                            //echo " </br>Records queried successfully";
-                            while($row = mysql_fetch_array($result)){   //Creates a loop to loop through results
-                                echo $row['salon'] . "</br>" . $row['address'] . "</br>" . $row['city'] . ", " . $row['state'] . " " . $row['zip'] . "</br>" . "Phone:" . $row['phone'] . "</br>" . "Email: <a href='mailto:".$row['email'].">" .$row['email']."</a>" . "</p>";  //$row['index'] the index here is a field name
-                            }  
-                        } 
-                        else{
-                            echo "ERROR: Could not execute $sql. " . mysql_error($db_selected);
-                        }
-                    //$result = mysql_query($sql);
-
-                    // while($row = mysql_fetch_array($result)){   //Creates a loop to loop through results
-                    //     echo $row['salon'] . "</br>" . $row['address'] . "</br>" . $row['city'] . "</br>" . $row['zip'] . "</br>" . $row['email'] . "</br>" . $row['phone'];  //$row['index'] the index here is a field name
-                    // }
-
-                    // echo "</p>"
-
-                    // mysql_close($db_selected);
-
-                ?>
-
-
+<div style="height: 100px;"></div>
 </body>
 </html>
