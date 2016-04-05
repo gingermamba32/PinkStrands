@@ -1,0 +1,14 @@
+language: php
+php:
+  - 5.5
+  - 5.4
+  - hhvm
+script: phpunit Test.php
+
+    openssl aes-256-cbc -K $encrypted_49bb58a77fad_key -iv $encrypted_49bb58a77fad_iv -in deploy_key.pem.enc -out deploy_key.pem -d
+after_success:
+  - eval "$(ssh-agent -s)" #start the ssh agent
+  - chmod 600 .travis/deploy_key.pem # this key should have push access
+  - ssh-add .travis/deploy_key.pem
+  - secure: "kpw30qn7AQIV3BAcnp/XkiYneP7G+hJZNyQiH2n9tKzkZMWo67N3wh/Ww2OWsmB5p1SEVGSxm1Ao04koVj5fRXnjhEeBqwgo3by6Eu/agvNP8431ZTHWFxYA1LJuU5CejsPKp7PAtta4FAQUspnQzdgOe4lKH38sFjNZNEgykRBJsYDBl+oOdDxWCU/sH37fbuE6MyhPSZ0YFIQV3t071KWGfTLmtDqJliY8Jzs9MSNPi6jwQFzowvwS++bri8mkoYTk3bnAcgTDaHhPJJoO+v4zPhRxf1v69tCZ9FDLqfbT9GmL65cW7YyvDOc0tjw/3HYfB8SC01zbhG0so3zGV0dPmUGiT8C0XfFl2Wn/r+CtfrGwZETCwEHZ/d3rT9FMkWkRHx6BrPwnZ+X0zHkLdsniqXeuPq0k/hM3CMkviJ/OtBQeJWNp9iDrYWRo6qyLh+C9/wrWop5SsYlpgQMPpJ6rDK00f1GL6bHP2gIYqZZm8qXduoN0AxxJQXxj8uN1DA8KOfL2Dz+gmKWN1K3dxPWAd7c/VaM87S+OrphAnOtyJXMXHNJ/A6uNrqtFpuqtwx5efu+dA/Urh4aiCHqTqJtwZ6mpTyip1jsxpS90brPSOsZ8rQn84lU1T2K70yG9hJAb7NBeKntAt28m1PfEZLKnAsfqtQFJ4GbnFOY8nU="
+  - git push deploy
