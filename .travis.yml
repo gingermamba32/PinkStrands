@@ -5,7 +5,8 @@ php:
   - hhvm
 script: phpunit Test.php
 
-    openssl aes-256-cbc -K $encrypted_49bb58a77fad_key -iv $encrypted_49bb58a77fad_iv -in deploy_key.pem.enc -out deploy_key.pem -d
+openssl aes-256-cbc -K $encrypted_49bb58a77fad_key -iv $encrypted_49bb58a77fad_iv -in deploy_key.pem.enc -out deploy_key.pem -d
+
 after_success:
   - eval "$(ssh-agent -s)" #start the ssh agent
   - chmod 600 .travis/deploy_key.pem # this key should have push access
