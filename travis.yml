@@ -1,0 +1,16 @@
+before_install:
+- openssl aes-256-cbc -K $encrypted_e18f07fd7ce6_key -iv $encrypted_e18f07fd7ce6_iv
+  -in deploy_key.pem.enc -out deploy_key.pem -d
+language: php
+php:
+- 5.2
+- 5.3
+- 5.4
+- hhvm
+script: phpunit Test.php
+after_success:
+- eval "$(ssh-agent -s)"
+- chmod 600 .travis/deploy_key.pem
+- ssh-add .travis/deploy_key.pem
+- secure: "SRlgPWgMrdPGRqFcQAzDY88PWRz73etmhZ+p58PhuNiEs05mFY+BK9l3qRZvlbmqysGyxynFHmID+Pya9k+rqZGCH90VGNyLqjQLqZmeU5xk0YupciYAQhO9y3aqJCB8yj5tFYuCA/dMBFu/+w6c1r986eLCuuTX5T/3qqvCeD/ucx57BubkdNTW4k8fNXcmmVdgqU5BYBL94d4hIuutJxFr48phUiEXF6t+vr/WZ8kk1FnKs2Zfij29hjFtVL67oiG+ScjHrdOOpOyR+BWQwaH14NlaMP3mDtLnoqt127TV/d0i1BHTINqMUOUal6gLkQTn/f70f1AyqSZyjfR7If+m+tdA+RsAKHvtUfM4IiiZDhp7rWLmShU8z/HgC9EyZq0ZP61BlGCDczuEDXiSxP/S8iFy3j2xGDQDxPUnjKkIoshTaP0JU/gKfmqaizcNs6gK0oiwKf04oWg0MlEbF4+yHJAYXtdSN/Hhq4xzawRHfkYMnzD2SloaUjnZRJs0c5iB8chYnba2KyBljN/y62Pvrr1T/g9iUmrg88bazPpKoxsbglPu+3KfHdUjbA3sIFadYnrvfxi6HoopPe8ZUhsi6Z/F+pq2cgiPuXbCbbVPBCNkV99oNXyZ5TDH63oz7TNUxDJ1ruiqj8msQCwVDmLtQfZ3nzdzKsnbT6G6g5s="
+- git push deploy
